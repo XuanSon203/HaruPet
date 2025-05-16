@@ -1,0 +1,18 @@
+mixin actions(prefixAdmin, link)
+    form.d-flex.flex-wrap.gap-2.align-items-center(
+        action=`${prefixAdmin}/${link}/change-multi?_method=PATCH`
+        method="POST"
+        form-change-multi
+        )
+            input#input-values(type="hidden", name="ids", value="")
+            
+            select#select-status.form-select.w-auto(name="type", required)
+                option(disabled selected) -- Chọn hành động --
+                option(value="active") Kích hoạt
+                option(value="inactive") Vô hiệu hóa
+                option(value="change-position") Thay đổi vị trí
+                option(value="deleteAll") Xóa tất cả
+
+            button#btn-all.btn.btn-outline-dark(type="submit")
+                i.fas.fa-sync-alt.me-1
+                | Cập nhật

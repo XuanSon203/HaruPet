@@ -1,0 +1,95 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/search.pug
+include ../../mixins/actions.pug
+include ../../mixins/alert.pug
+block main 
+  if(role.permissions.includes("products-category_view"))
+
+    .container.mt-5
+      +alert-success(5000)
+      h1.text-center.mb-4.text-primary Quản lý giống 
+
+      .d-flex.justify-content-between.flex-wrap.align-items-center.mb-4.gap-3
+        .d-flex.gap-2.flex-wrap
+          a.btn.btn-outline-primary(href=`${prefixAdmin}/breeds/create`) <i class="bi bi-plus-square-fill"></i> 
+
+        .d-flex.col-8.justify-content-between.align-items-center
+          .d-flex.gap-3.justify-content-center
+          +search(prefixAdmin, 'breeds')
+          +actions(prefixAdmin, 'breeds')
+
+
+      table.table.table-striped.table-bordered.text-center.align-middle(checkbox-multi)
+        thead.table-dark
+          tr
+              th
+                  input#checkAll(type="checkbox", name="checkAll" checkAll)
+              th STT
+              th Tên giống  
+              th Mô tả 
+              th Vị trí 
+              th Người tạo 
+              th Người cật nhập 
+              th Trạng thái 
+              th Hành động
+
+        tbody
+          each item, index in data
+            tr
+              td
+                  input.checkItem(type="checkbox", name="checkItem" data-id = item.id)
+              th #{index + 1}
+              td #{item.title}
+              td 
+                img(src=item.thumbnail, alt=item.title, style="width: 150px; height: auto;")
+              td
+                  input.form-control(type="number", name="position", value=item.position, min="1", style="width: 80px; margin: auto;")
+              td 
+                  p #{item.accountFullName }
+                  if(item.createdAt)
+                    p #{item.createdAt.toLocaleString('vi-VN')} 
+              td 
+                  - var updatedBy = item.updatedBy[item.updatedBy.length - 1]
+                  if updatedBy
+                    p #{updatedBy.accountFullName}
+                    if updatedBy.updatedAt
+                      - var updatedDate = new Date(Number(updatedBy.updatedAt))
+                      p #{updatedDate.toLocaleString('vi-VN')}
+              td
+                  if item.status == 'active'
+                      a.badge.bg-success( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id) Đang bán 
+                  else
+                      a.badge.bg-secondary( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id ) Ngừng bán 
+
+              td
+                  a.btn.btn-sm.btn-outline-info.text-dark(href=`${prefixAdmin}/breeds/${item._id}`)
+                      i.bi.bi-eye-fill.me-1
+                      | Xem
+
+                  a.btn.btn-sm.btn-outline-warning.text-black.ms-2(href=`${prefixAdmin}/breeds/edit/${item._id}`)
+                      i.bi.bi-pencil.me-1
+                      | Sửa
+
+                  button.btn.btn-sm.btn-outline-danger.ms-2(type="button", data-id=item._id, btn-delete) 
+                      i.bi.bi-trash
+                      | Xóa
+
+      form#formDelete(action="", data-path=`${prefixAdmin}/breeds/delete`, method="post")
+      form(action="" method="POST" form-change-status data-path=`${prefixAdmin}/breeds/change-status`)
+      // Pagination
+      if pagination.totalPage > 1
+        nav(aria-label="Pagination")
+          ul.pagination.justify-content-center
+            if pagination.currentPage > 1
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage - 1) <i class="bi bi-chevron-double-left"></i>
+
+            - for (let i = 1; i <= pagination.totalPage; i++)
+              li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+                button.page-link(type="button", button-pagination=i) #{i}
+
+            if pagination.currentPage < pagination.totalPage
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage + 1) <i class="bi bi-chevron-double-right"></i>
+  else
+    p Bạn không có quyền 

@@ -1,0 +1,18 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+  .container.mt-4
+    h1.text-center.mb-4 Danh sách thú cưng
+
+    .row
+      each pet in pets
+        .col-md-4.mb-4
+            .card
+                img.card-img-top(src=pet.thumbnail, alt=pet.name)
+                .card-body
+                    h5.card-title #{pet.name}
+                    p.card-text Giá: #{pet.price} VNĐ
+                    p.card-text Màu sắc: #{pet.color}
+                    p.card-text Tuổi: #{pet.age} tuổi
+                    p.card-text Giới tính: #{pet.gender == 'male' ? 'Đực' : 'Cái'}
+                    a.btn.btn-primary(href=`/pets/${pet.slug}`) Xem chi tiết

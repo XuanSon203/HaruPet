@@ -1,0 +1,40 @@
+#show-alert {
+  position: relative;
+  padding: 12px 36px 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  max-width: 300px;
+  min-width: 250px;
+  word-wrap: break-word;
+}
+
+#close-alert {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+#close-alert:hover {
+  opacity: 1;
+}
+.alert-hidden{
+  display: none;
+}
+
+.alert-wrap {
+  position: fixed;
+  bottom: 20px;
+  right: 20px; 
+  z-index: 1055;
+}

@@ -1,0 +1,19 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+  .container.mt-4
+    h2.mb-4.text-center Chỉnh sửa đơn hàng
+
+    form(method="POST", action=`/admin/orders/edit/${order._id}?_method=PATCH`)
+      .mb-3
+        label.form-label Người đặt: 
+        input.form-control(type="text", value=order.user_id.fullName readonly)
+        
+      .mb-3
+        label.form-label Trạng thái
+        select.form-select(name="status")
+          option(value="pending", selected=order.status === 'pending') Đang xác nhận
+          option(value="shipping", selected=order.status === 'shipping') Đang giao hàng
+          option(value="completed", selected=order.status === 'completed') Giao thành công
+
+      button.btn.btn-primary(type="submit") Cập nhật

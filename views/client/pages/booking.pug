@@ -1,0 +1,63 @@
+include ../layout/layoutdefault.pug
+block main
+    .container-fluid.bg-light
+    .container
+        .row.align-items-center
+        .col-lg-5
+            .bg-primary.py-5.px-4.px-sm-5
+            form.py-5
+                .form-group
+                input.form-control.border-0.p-4(
+                    type="text", placeholder="Your Name", required="required")
+                .form-group
+                input.form-control.border-0.p-4(
+                    type="email", placeholder="Your Email", required="required")
+                .form-group
+                .date#date(data-target-input="nearest")
+                    input.form-control.border-0.p-4.datetimepicker-input(
+                    type="text", placeholder="Reservation Date", data-target="#date", data-toggle="datetimepicker")
+                .form-group
+                .time#time(data-target-input="nearest")
+                    input.form-control.border-0.p-4.datetimepicker-input(
+                    type="text", placeholder="Reservation Time", data-target="#time", data-toggle="datetimepicker")
+                .form-group
+                select.custom-select.border-0.px-4(style="height: 47px;")
+                    option(selected) Select A Service
+                    option(value="1") Service 1
+                    option(value="2") Service 1
+                    option(value="3") Service 1
+                div
+                button.btn.btn-dark.btn-block.border-0.py-3(type="submit") Book Now
+
+        .col-lg-7.py-5.py-lg-0.px-3.px-lg-5
+            h4.text-secondary.mb-3 Going for a vacation?
+            h1.display-4.mb-4
+            | Book For 
+            span.text-primary Your Pet
+            p Labore vero lorem eos sed aliquy ipsum aliquy sed. Vero dolore dolore takima ipsum lorem rebum
+            .row.py-2
+            .col-sm-6
+                .d-flex.flex-column
+                .d-flex.align-items-center.mb-2
+                    h1.flaticon-house.font-weight-normal.text-secondary.m-0.mr-3
+                    h5.text-truncate.m-0 Pet Boarding
+                p Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet
+            .col-sm-6
+                .d-flex.flex-column
+                .d-flex.align-items-center.mb-2
+                    h1.flaticon-food.font-weight-normal.text-secondary.m-0.mr-3
+                    h5.text-truncate.m-0 Pet Feeding
+                p Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet
+            .col-sm-6
+                .d-flex.flex-column
+                .d-flex.align-items-center.mb-2
+                    h1.flaticon-grooming.font-weight-normal.text-secondary.m-0.mr-3
+                    h5.text-truncate.m-0 Pet Grooming
+                p.m-0 Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet
+            .col-sm-6
+                .d-flex.flex-column
+                .d-flex.align-items-center.mb-2
+                    h1.flaticon-toy.font-weight-normal.text-secondary.m-0.mr-3
+                    h5.text-truncate.m-0 Pet Tranning
+                p.m-0 Diam amet eos at no eos sit lorem, amet rebum ipsum clita stet
+        

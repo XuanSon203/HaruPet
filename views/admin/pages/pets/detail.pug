@@ -1,0 +1,35 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+    .container.mt-5
+        h1.text-2xl.text-center.text-primary.fw-bold.mb-4 Thông tin chi tiết thú cưng
+
+        .card.shadow-sm
+            .card-body
+                .row
+                    .col-md-4
+                        img.img-fluid.rounded.mb-3(src=data.thumbnail alt=data.name)
+                    .col-md-8
+                        h2.text-primary.mb-3 #{data.name}
+                        p
+                            strong Tuổi: 
+                            | #{data.age} tuổi
+                        p
+                            strong Màu lông: 
+                            | #{data.color}
+                        p
+                            strong Giá: 
+                            | #{Number(data.price).toLocaleString('vi-VN')} VNĐ
+                        p
+                            strong Ngày sinh: 
+                            | #{new Date(data.birthDate).toLocaleDateString('vi-VN')}
+                        p
+                            strong Giới tính: 
+                            | #{data.gender == 'male' ? 'Đực' : 'Cái'}
+                        p
+                            strong Mô tả:
+                            br
+                            | !{data.description}
+                
+                .mt-4
+                    a.btn.btn-secondary(href=`${prefixAdmin}/pets`) Quay lại danh sách

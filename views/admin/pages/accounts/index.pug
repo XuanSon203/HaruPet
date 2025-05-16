@@ -1,0 +1,120 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/search.pug
+include ../../mixins/actions.pug
+include ../../mixins/alert.pug
+
+block main
+  if (role.permissions.includes("account_view"))
+    .container.mt-5
+      +alert-success(5000)
+      +alert-error(5000)
+
+      h1.text-center.mb-4.text-primary Quản lý tài khoản 
+
+      .d-flex.justify-content-between.flex-wrap.align-items-center.mb-4.gap-3
+        .d-flex.gap-2.flex-wrap
+          a.btn.btn-outline-primary(href=`${prefixAdmin}/accounts/create`) 
+            i.bi.bi-plus-square-fill
+            |  Thêm tài khoản
+        .d-flex.col-8.justify-content-between.align-items-center
+          .d-flex.gap-3.justify-content-center
+            +search(prefixAdmin, 'accounts')
+          +actions(prefixAdmin, 'accounts')
+
+      table.table.table-striped.table-bordered.text-center.align-middle(checkbox-multi)
+        thead.table-dark
+          tr
+            th
+              input#checkAll(type="checkbox", name="checkAll", checkAll)
+            th STT
+            th Tên tài khoản
+            th Email
+            th Số điện thoại
+            th Vai trò
+            th Người tạo 
+            th Người cật nhập 
+            th Trạng thái
+            th Vị trí 
+            th Hành động
+
+        tbody
+          each account, index in accounts
+            tr
+              td
+                input.checkItem(type="checkbox", name="checkItem", data-id=account.id)
+              td #{index + 1}
+              td #{account.fullName}
+              td #{account.email}
+              td #{account.phone}
+              td #{account.role.title}
+              td 
+                  p #{account.accountFullName }
+                  if(account.createdAt)
+                    p #{account.createdAt.toLocaleString('vi-VN')} 
+              td 
+                  - var updatedBy = account.updatedBy[account.updatedBy.length - 1]
+                  if updatedBy
+                    p #{updatedBy.accountFullName}
+                    if updatedBy.updatedAt
+                      - var updatedDate = new Date(Number(updatedBy.updatedAt))
+                      p #{updatedDate.toLocaleString('vi-VN')}
+              td
+                  if account.status == 'active'
+                    a.badge.bg-success(
+                      href="javascript:"
+                      class="btn-change-status"
+                        btn-change-status
+                      data-status=account.status
+                      data-id=account.id
+                    ) Đang hoạt động
+                  else
+                    a.badge.bg-secondary(
+                      href="javascript:"
+                      btn-change-status
+                      data-status=account.status
+                      data-id=account.id
+                    ) Vô hiệu hóa
+              td
+                  input.form-control(
+                    type="number",
+                    name="position",
+                    value=account.position,
+                    min="1",
+                    style="width: 80px; margin: auto;"
+                  )
+
+              td
+                a.btn.btn-warning.btn-sm(href=`${prefixAdmin}/accounts/edit/${account._id}`) Sửa
+                button.btn.btn-danger.btn-sm(data-id=account._id, btn-delete) Xóa
+
+      form#formDelete(
+        action="",
+        data-path=`${prefixAdmin}/accounts/delete`,
+        method="post"
+      )
+
+      form(
+        action="",
+        method="POST",
+        form-change-status,
+        data-path=`${prefixAdmin}/accounts/change-status`
+      )
+
+      if pagination.totalPage > 1
+        nav(aria-label="Pagination")
+          ul.pagination.justify-content-center
+            if pagination.currentPage > 1
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage - 1)
+                  i.bi.bi-chevron-double-left
+
+            - for (let i = 1; i <= pagination.totalPage; i++)
+              li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+                button.page-link(type="button", button-pagination=i) #{i}
+
+            if pagination.currentPage < pagination.totalPage
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage + 1)
+                  i.bi.bi-chevron-double-right
+  else 
+    p.text-center.text-danger.mt-5 Bạn không có quyền vào trang này
