@@ -4,7 +4,8 @@ node_module
 Cậu lênh cài đặt 
 npm init 
 npm i dotenv
-Còn data basr thì liên hệ mk mình sẽ cung cấp cho các bạn nha :) 
+Còn database mk mình sẽ cung cấp cho các bạn sau nha  nha :) 
 tài khoản admin 
-email:pxuanson203@gmail.com
+email:manebis#o5@gmaiil.com
 mk 123456
+
