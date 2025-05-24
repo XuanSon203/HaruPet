@@ -4,10 +4,21 @@ node_module
 Cậu lênh cài đặt 
 npm init 
 npm i dotenv
-Còn database mk mình sẽ cung cấp cho các bạn sau nha  nha :) 
+Còn database mk mình sẽ cung cấp cho các bạn khi các bạn ib qua gmail pxuanson203@gmai.com mình sẽ phản hổi lại cho các bạn sau 24h  
 tài khoản admin 
 email:manebis#o5@gmaiil.com
 mk 123456
+Mổ tả về các chức năng có trên trang web 
+Admin:
+  Quản lý đơn hàng, tài khoản , user, dịch vụ , phân quyền ...
+CLient:
+  Sản phẩm 
+  Đặt hàng, thêm sản phẩm vào giỏ hàng , xem được đơn hàng ..
+  Dịch vụ 
+  đăng ký các dịch vụ ,
+  có thể hủy dịch vụ trước 15p ..
+
+  
 
 Dưới đây là một sô giao diện về web 
 ![image](https://github.com/user-attachments/assets/c433fda1-47ee-4b47-a810-f7ec480909b8)
