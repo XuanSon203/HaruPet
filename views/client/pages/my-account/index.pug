@@ -1,0 +1,29 @@
+extends ../../layout/layoutdefault.pug 
+include ../../mixins/alert.pug 
+block main 
+    +alert-error(5000)
+    +alert-success(5000)
+    .container.mt-5
+        h2 Thông tin tài khoản
+
+        .card.mt-4.shadow
+        .card-body
+            .mb-3
+                label.form-label Ảnh đại diện hiện tại:
+                br
+                img(src=user.avatar, alt="Avatar", width="100", height="100", class="rounded-circle border")
+            dl.row
+            dt.col-sm-4 Họ và tên:
+            dd.col-sm-8 #{user.fullName}
+
+            dt.col-sm-4 Email:
+            dd.col-sm-8 #{user.email}
+
+            dt.col-sm-4 Số điện thoại:
+            dd.col-sm-8 #{user.phone}
+            
+            dt.col-sm-4  Địa chỉ :
+            dd.col-sm-8 #{user.address}
+            
+            // Nếu bạn muốn cho phép chỉnh sửa thông tin:
+            a.btn.btn-primary.mt-3(href=`/my-account/edit/${user._id}`) Chỉnh sửa thông tin

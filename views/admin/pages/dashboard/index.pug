@@ -1,0 +1,173 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+  .container.mt-5
+    h1.text-center.mb-4 Dashboard Quản Trị
+
+    .row.text-center.mb-5
+      .col-md-4
+        .card.shadow.p-3.mb-3.bg-body.rounded
+          h4 Tổng số user 
+          h2.text-primary #{users}
+
+      .col-md-4
+        .card.shadow.p-3.mb-3.bg-body.rounded
+          h4 Đơn hàng 
+          h2.text-success #{orders}
+
+      .col-md-4
+        .card.shadow.p-3.mb-3.bg-body.rounded
+          h4 Sản phẩm 
+          h2.text-warning #{products}
+
+    h3.text-center.mb-4 Biểu đồ thống kê riêng biệt
+
+    .row.mb-4
+      .col-md-6.mb-4
+        h5.text-center Biểu đồ số lượng User
+        .d-flex.justify-content-center
+          canvas#userChart.w-100(style="max-width: 500px; height: 300px;")
+      .col-md-6.mb-4
+        h5.text-center Biểu đồ đơn hàng
+        .d-flex.justify-content-center
+          canvas#orderChart.w-100(style="max-width: 500px; height: 300px;")
+
+    .row.mb-5
+      .col-md-12
+        h5.text-center Biểu đồ sản phẩm
+        .d-flex.justify-content-center
+          canvas#petChart.w-100(style="max-width: 500px; height: 300px;")
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+    script.
+      const chartOptions = (title) => ({
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: title,
+            font: {
+              size: 16
+            }
+          },
+          legend: {
+            labels: {
+              font: {
+                size: 12
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,           
+            ticks: {
+              precision: 0,
+              stepSize: 1,    
+              font: {
+                size: 12
+              }
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 12
+              }
+            }
+          }
+        }
+      });
+
+      // Biểu đồ User dạng doughnut
+      new Chart(document.getElementById('userChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: ['User đang hoạt động', 'User bị khóa'],
+          datasets: [{
+            data: [!{userActive}, !{userInactive}],
+            backgroundColor: [
+              'rgba(99, 234, 9, 0.6)',
+              'rgba(226, 29, 29, 0.6)'
+            ],
+            borderColor: [
+              'rgba(99, 234, 9, 1)',
+              'rgba(226, 29, 29, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { font: { size: 14 } }
+            },
+            title: {
+              display: true,
+              text: 'Thống kê User',
+              font: { size: 16 }
+            }
+          }
+        }
+      });
+
+      // Biểu đồ đơn hàng dạng bar
+      new Chart(document.getElementById('orderChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['Thống kê'],
+          datasets: [
+            {
+              label: 'Đơn hàng hoàn thành',
+              data: [!{orderCompleted}],
+              borderColor: '#28a745',
+              backgroundColor: 'rgba(40,167,69,0.3)',
+              tension: 0.4
+            },
+            {
+              label: 'Đơn hàng chờ xác nhận',
+              data: [!{orderPending}],
+              borderColor: '#ffc107',
+              backgroundColor: 'rgba(255,193,7,0.3)',
+              tension: 0.4
+            },
+            {
+              label: 'Đơn hàng đang giao',
+              data: [!{orderShipping}],
+              borderColor: '#17a2b8',
+              backgroundColor: 'rgba(23,162,184,0.3)',
+              tension: 0.4
+            }
+          ]
+        },
+        options: chartOptions('Thống kê Đơn hàng')
+      });
+
+      // Biểu đồ sản phẩm dạng bar
+      new Chart(document.getElementById('petChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['Thống kê'],
+          datasets: [
+            {
+              label: 'Sản phẩm đang hoạt động',
+              data: [!{productsActive}],
+              borderColor: '#ffc107',
+              backgroundColor: 'rgba(255,193,7,0.3)',
+              tension: 0.4
+            },
+            {
+              label: 'Sản phẩm không hoạt động',
+              data: [!{productsInactive}],
+              borderColor: 'rgba(234, 24, 9, 1)',
+              backgroundColor: 'rgba(234, 24, 9, 0.3)',
+              tension: 0.4
+            }
+          ]
+        },
+        options: chartOptions('Thống kê Sản phẩm')
+      });

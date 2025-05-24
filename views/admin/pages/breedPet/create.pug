@@ -1,0 +1,30 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+    .container.mt-5
+        h2.text-center.mb-4.text-primary Thêm danh mục 
+       
+        form(method="POST", action=`${prefixAdmin}/breeds/create` enctype="multipart/form-data" )
+            .mb-3
+                label.form-label(for="title") Tên danh mục 
+                input.form-control(type="text", name="title", id="title", required)
+            .mb-3
+                label.form-label(for="parent_id") Danh mục cha
+                select.form-select(name="parent_id" id="parent_id")
+                    option(value="") -- Chọn danh mục cha --
+                    each item in categories
+                        option(value=item._id)= item.title
+            .mb-3
+                div( class="form-group" upload-image)
+                    label.form-label(for="thumbnail") Ảnh sản phẩm (URL):
+                    input.form-control(type="file" name="thumbnail" accept="image/*" upload-image-input)
+                    img(src="", alt="" upload-image-preview style=" width: 150px; margin-top: 10px;")
+                    button.btn.btn-danger.mt-2(type="button" upload-image-remove) Xóa ảnh
+
+            .mb-3
+            .mb-3
+                label.form-label(for="description") Mô tả
+                textarea.form-control(name="description", id="description", rows="4")
+
+            button.btn.btn-success(type="submit") Thêm mới
+            a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/breedPet`) Quay lại

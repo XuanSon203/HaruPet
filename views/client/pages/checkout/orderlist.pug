@@ -1,0 +1,54 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+  .container.mt-5
+    h2.mb-4 Danh sách đơn hàng đã đặt
+
+    if orders.length > 0
+      each order, index in orders
+        .card.mb-4.shadow-sm
+          .card-body
+            h5 Đơn hàng #{index + 1}
+            p strong Người nhận: #{order.userInfo.fullName}
+            p SĐT: #{order.userInfo.phone}
+            p Địa chỉ: #{order.userInfo.address}
+            p Ngày đặt:  #{order.createdAt.toLocaleDateString('vi-VN')}
+            p Trạng thái:
+              if order.status === 'pending'
+                span.badge.bg-warning Đang xác nhận
+              else if order.status === 'shipping'
+                span.badge.bg-info Đang giao hàng
+              else if order.status === 'completed'
+                span.badge.bg-success Giao thành công
+              else
+                span.badge.bg-secondary Không xác định
+
+            table.table.table-bordered.mt-3
+              thead
+                tr
+                  th Ảnh
+                  th Tên sản phẩm
+                  th Giá
+                  th Số lượng
+                  th Tổng tiền
+              tbody
+                each product in order.products
+                  tr
+                    td 
+                      img(src=product.productInfo.thumbnail, width="60")
+                    td= product.productInfo.name
+                    td= product.priceNew.toLocaleString('vi-VN') + ' VNĐ'
+                    td= product.quantity
+                    td= product.totalPrice.toLocaleString('vi-VN') + ' VNĐ'
+
+            h5.text-end Tổng cộng: 
+              span.text-danger #{order.totalPrice.toLocaleString('vi-VN')} VNĐ
+
+            // Nút xoá đơn hàng
+            form(action=`/checkout/delete/${order._id}?_method=Delete`, method="POST", onsubmit="return confirm('Bạn có chắc muốn xoá đơn hàng này?');")
+              if order.status === 'pending'
+                button.btn.btn-outline-danger.mt-3(type="submit") Hủy đơn hàng 
+    else 
+      p.text-muted Bạn chưa đặt đơn hàng nào.

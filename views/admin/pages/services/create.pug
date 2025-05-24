@@ -1,0 +1,22 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+    .container.mt-5
+        h2.text-center.mb-4.text-primary Thêm dịch vụ 
+        form(method="POST", action=`${prefixAdmin}/services/create` enctype="multipart/form-data" )
+            .mb-3
+                label.form-label(for="title") Tên dịch vụ 
+                input.form-control(type="text", name="title", id="title", required)
+            .mb-3
+                label.form-label(for="description") Mô tả về dịch vụ 
+                input.form-control(type="text", name="description", id="description", required)
+            .mb-3
+                div( class="form-group" upload-image)
+                    label.form-label(for="thumbnail") Ảnh  về dịch vụ :
+                    input.form-control(type="file" name="thumbnail" accept="image/*" upload-image-input)
+                    img(src="", alt="" upload-image-preview style=" width: 150px; margin-top: 10px;")
+                    button.btn.btn-danger.mt-2(type="button" upload-image-remove) Xóa ảnh
+            .mb-3
+            
+            button.btn.btn-success(type="submit") Thêm mới
+            a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/services`) Quay lại

@@ -1,0 +1,83 @@
+.container-fluid
+    .row.bg-secondary.py-2.px-lg-5
+      .col-lg-6.text-center.text-lg-left.mb-2.mb-lg-0
+        .d-inline-flex.align-items-center
+          a.text-white.pr-3(href='') FAQs
+          span.text-white | 
+          a.text-white.px-3(href='') Help
+          span.text-white | 
+          a.text-white.pl-3(href='') Support
+
+      .col-lg-6.text-center.text-lg-right
+        .d-inline-flex.align-items-center
+          a.text-white.px-3(href='')
+            i.fab.fa-facebook-f
+          a.text-white.px-3(href='')
+            i.fab.fa-twitter
+          a.text-white.px-3(href='')
+            i.fab.fa-linkedin-in
+          a.text-white.px-3(href='')
+            i.fab.fa-instagram
+          a.text-white.pl-3(href='')
+            i.fab.fa-youtube
+
+    .row.py-3.px-lg-5
+      .col-lg-4
+        a.navbar-brand.d-none.d-lg-block(href='')
+          h1.m-0.display-5.text-capitalize 
+            span.text-primary HaruPet
+      .col-lg-8.text-center.text-lg-right
+        .d-inline-flex.align-items-center
+          .d-inline-flex.flex-column.text-center.pr-3.border-right
+            h6 Opening Hours
+            p.m-0 8.00AM - 9.00PM
+          .d-inline-flex.flex-column.text-center.px-3.border-right
+            h6 Email Us
+            p.m-0 harupet@gmail.com
+          .d-inline-flex.flex-column.text-center.pl-3
+            h6 Call Us
+            p.m-0 +012 345 6789
+
+.container-fluid.p-0
+    nav.navbar.navbar-expand-lg.bg-dark.navbar-dark.py-3.py-lg-0.px-lg-5
+      a.navbar-brand.d-block.d-lg-none(href='')
+        h1.m-0.display-5.text-capitalize.font-italic.text-white
+          span.text-primary Safety
+          | First
+
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse')
+        span.navbar-toggler-icon
+
+      .collapse.navbar-collapse.justify-content-between.px-3#navbarCollapse
+        .navbar-nav.mr-auto.py-0
+          a.nav-item.nav-link.active(href="/") Home
+          a.nav-item.nav-link(href='/about') About
+          a.nav-item.nav-link(href='/services') Service
+          a.nav-item.nav-link(href='/pets') Sản phẩm 
+          a.nav-item.nav-link(href='/register') Booking
+          .nav-item.dropdown
+              a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Pages
+              .dropdown-menu.rounded-0.m-0
+                  a.dropdown-item(href='blog.html') Blog Grid
+                  a.dropdown-item(href='single.html') Blog Detail
+          a.nav-item.nav-link(href='contact.html') Contact
+
+      a.btn.text-black.mx-4.btn-outline-primary(href='/cart') <i class="bi bi-bag"></i>
+      a.btn.btn-outline-primary(href="/checkout/orders") Xem đơn hàng đã đặt
+
+      if user
+        .d-block
+          a.btn.btn-outline-primary.mx-2(href='/my-account')
+            if user.avatar
+              img(src=user.avatar, alt='Avatar', width='30', height='30', class='rounded-circle me-2 align-middle')
+            else
+              i.bi.bi-person-square.me-2
+            | #{user.fullName}
+          a.btn.btn-outline-dark.text-white(href="/user/logout")
+            i.bi.bi-box-arrow-right
+            | Logout
+
+      else 
+        a.btn.btn-outline-primary(href="/user/register") Đăng ký  
+        a.btn.btn-outline-primary(href="/user/login") Đăng nhập  
+    

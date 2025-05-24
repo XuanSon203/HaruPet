@@ -1,0 +1,42 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-error("5000")
+  +alert-success("5000")
+
+  h2.text-center.mb-4 Cập nhật Account
+
+  form(method="POST" action=`${prefixAdmin}/accounts/edit/${data._id}?_method=Patch`)
+    .mb-3
+      label.form-label(for="fullName") Họ tên
+      input.form-control(type="text", name="fullName", id="fullName", required, value=data.fullName)
+
+    .mb-3
+      label.form-label(for="email") Email
+      input.form-control(type="email", name="email", id="email", required, value=data.email)
+    .mb-3
+      label.form-label(for="password") Mật khẩu :
+      input.form-control(name="password")
+    .mb-3
+      label.form-label(for="phone") Số điện thoại
+      input.form-control(type="text", name="phone", id="phone", value=data.phone)
+
+    .mb-3
+      label.form-label Quyền
+      select.form-select(name="role_id")
+        each role in roles
+          option(value=role._id selected=(role._id.toString() === data.role_id.toString()) ) #{role.title}
+
+    .mb-3
+      label.form-label Trạng thái
+      div
+        label.me-3
+          input(type="radio", name="status", value="active", checked=data.status === 'active')
+          | Active
+        label
+          input(type="radio", name="status", value="inactive", checked=data.status === 'inactive')
+          | InActive
+
+    button.btn.btn-success(type="submit") Cập nhật
+    a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/accounts`) Quay lại

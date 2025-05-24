@@ -1,0 +1,66 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+  .container.py-5
+    h2.text-center.mb-4 Giỏ hàng của bạn
+
+    if cart && cart.products.length > 0
+      .table-responsive
+        table.table.table-bordered.table-hover.align-middle
+          thead.table-dark
+            tr
+              th.text-center STT
+              th.text-center Ảnh
+              th Tên sản phẩm
+              th.text-end Giá
+              th.text-center Số lượng
+              th.text-end Tổng tiền
+              th.text-center Hành động
+          tbody
+            each item, index in cart.products
+              if item.productInfo
+                tr
+                  td.text-center #{index + 1}
+                  td.text-center
+                    img.img-thumbnail(src=item.productInfo.thumbnail, alt="Ảnh sản phẩm", width="80")
+                  td 
+                    a.text-decoration-none.text-dark(href=`/pets/${item.productInfo.slug}`) 
+                      strong #{item.productInfo.name}
+                  td.text-end.text-primary #{item.productInfo.priceNew.toLocaleString('vi-VN')} đ
+                  td.text-center
+                    form.d-flex.justify-content-center.align-items-center(
+                      form-update-quantity action='' method="post" data-path='/cart/update'
+                    )
+                      button.btn.btn-sm.btn-outline-danger(type="button", btn-dow) −
+                      input.form-control.text-center.mx-2(
+                        type="number",
+                        name="quantity",
+                        value=item.quantity,
+                        data-id=item.product_id,
+                        min="1",
+                        quantity,
+                        style="width: 70px;"
+                      )
+                      button.btn.btn-sm.btn-outline-success(type="button", btn-up) +
+                  td.text-end.text-danger #{item.totalPrice.toLocaleString('vi-VN')} đ
+                  td.text-center
+                    a.btn.btn-sm.btn-outline-danger(btn-delete data-id=item.product_id)
+                      i.bi.bi-trash-fill 
+                      |  Xóa
+              else
+                tr
+                  td(colspan="7").text-danger.text-center Sản phẩm không còn tồn tại
+    else
+      .alert.alert-warning.text-center Giỏ hàng của bạn đang trống.
+
+    // Tổng tiền và nút thanh toán
+    .row.mt-4.justify-content-end
+      .col-md-6.text-end
+        h4 Tổng cộng: 
+          span.text-danger.ms-2 #{(cart && cart.totalPrice ? cart.totalPrice.toLocaleString('vi-VN') : 0)} đ
+        a.btn.btn-dark.mt-3.mx-2(href="/checkout") <i class="bi bi-credit-card"></i> Thanh toán
+        a.btn.btn-outline-secondary.mt-3(href="/pets") <i class="bi bi-arrow-left"></i> Tiếp tục mua hàng
+
+    form#deleteCart(action="" data-path='/cart/delete' method="post")

@@ -1,0 +1,91 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+  .container.mt-4
+    h2.mb-4.text-center Danh sách đơn hàng
+
+    if orders.length
+      each order, index in orders
+        .card.mb-4.shadow-sm
+          .card-header.bg-light.d-flex.justify-content-between.align-items-center
+            h5.mb-0
+              i.bi.bi-receipt.me-2
+              | Đơn hàng # #{index + 1}
+            span.badge.bg-secondary #{order.createdAt.toLocaleDateString('vi-VN')}
+
+          .card-body
+            ul.list-group.list-group-flush.mb-3
+              li.list-group-item
+                strong Người đặt:
+                |  #{order.user_id.fullName || 'Không có'}
+
+              li.list-group-item
+                strong SĐT người đặt:
+                |  #{order.user_id.phone || 'Không có'}
+              li.list-group-item
+                strong Địa chỉ:
+                |  #{order.userInfo.address || 'Không có'}
+              li.list-group-item.d-flex.justify-content-between.align-items-center
+                span
+                  strong Trạng thái: 
+                  if order.status === 'pending'
+                    span.badge.bg-warning.ms-2
+                      i.bi.bi-hourglass-split.me-1
+                      | Đang xác nhận
+                  else if order.status === 'shipping'
+                    span.badge.bg-info.ms-2
+                      i.bi.bi-truck.me-1
+                      | Đang giao hàng
+                  else if order.status === 'completed'
+                    span.badge.bg-success.ms-2
+                      i.bi.bi-check-circle.me-1
+                      | Giao thành công
+                  else
+                    span.badge.bg-secondary.ms-2
+                      i.bi.bi-question-circle.me-1
+                      | Không xác định
+                a.btn.btn-sm.btn-outline-primary(href=`/admin/orders/edit/${order._id}`)
+                  i.bi.bi-pencil.me-1
+                  | Sửa
+
+            table.table.table-hover.mt-3
+              thead
+                tr
+                  th Ảnh
+                  th Tên thú cưng
+                  th Giá gốc
+                  th Giá giảm
+                  th Số lượng
+                  th Thành tiền
+              tbody
+                each product in order.products
+                  tr
+                    td
+                      img(src=product.productInfo.thumbnail, width="60", height="60")
+                    td= product.productInfo.name || 'Không tìm thấy'
+                    td.text-muted= product.price.toLocaleString('vi-VN') + ' VNĐ'
+                    td.text-success= product.priceNew.toLocaleString('vi-VN') + ' VNĐ'
+                    td= product.quantity
+                    td.text-danger= product.totalPrice.toLocaleString('vi-VN') + ' VNĐ'
+
+            .text-end.mt-3
+              h5
+                | Tổng cộng: 
+                span.text-danger #{order.totalPrice.toLocaleString('vi-VN')} VNĐ
+              // Pagination
+    if pagination.totalPage > 1
+              nav(aria-label="Pagination")
+                ul.pagination.justify-content-center
+                  if pagination.currentPage > 1
+                    li.page-item
+                      button.page-link(type="button", button-pagination=pagination.currentPage - 1) <i class="bi bi-chevron-double-left"></i>
+
+                  - for (let i = 1; i <= pagination.totalPage; i++)
+                    li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+                      button.page-link(type="button", button-pagination=i) #{i}
+
+                  if pagination.currentPage < pagination.totalPage
+                    li.page-item
+                    button.page-link(type="button", button-pagination=pagination.currentPage + 1) <i class="bi bi-chevron-double-right"></i>
+    else
+      .alert.alert-warning.text-center.mt-5 Chưa có đơn hàng nào.

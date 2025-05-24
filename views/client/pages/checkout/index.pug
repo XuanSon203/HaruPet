@@ -1,0 +1,41 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+  .container.mt-5
+    h2.mb-4 Giỏ hàng của bạn
+
+    if cartDetail.products.length > 0
+      table.table.table-bordered.table-hover
+        thead
+          tr
+            th STT
+            th Ảnh
+            th Tên
+            th Giá
+            th Số lượng
+            th Tổng tiền
+        tbody
+          each item, index in cartDetail.products
+            tr
+              td #{index + 1}
+              td 
+                img(src=item.productInfo.thumbnail, alt="Tên sản phẩm", width="80")
+              td 
+                p.mb-0 #{item.productInfo.name} 
+              td #{item.productInfo.priceNew.toLocaleString('vi-VN')} VNĐ
+              td
+                p.mb-0 #{item.quantity}
+              td #{item.totalPrice.toLocaleString('vi-VN')} VNĐ
+    else 
+      .alert.alert-warning.mt-3 Không có sản phẩm nào trong giỏ hàng
+
+    // Tổng cộng
+    .d-flex.justify-content-end.mt-4
+      h4
+        | Tổng cộng: 
+        span.text-danger.ms-2 #{cartDetail.totalPrice.toLocaleString('vi-VN')} VNĐ
+    // Form thông tin người nhận
+    form(action="/checkout/order" method="POST" )
+      button.btn.btn-primary.w-25.float-right(type="submit") Đặt hàng 

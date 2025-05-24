@@ -1,0 +1,43 @@
+extends ../../layout/layoutdefault.pug 
+
+block main 
+  .container.mt-5
+    h2.text-center.mb-4 Danh sách đăng ký dịch vụ
+
+    if registers.length
+      table.table.table-bordered.table-striped.table-hover
+        thead.table-light
+          tr
+            th STT
+            th Tên dịch vụ
+            th Ngày đăng ký
+            th Giờ đăng ký 
+            th Trạng thái
+            th Hành động
+        tbody
+          each reg, index in registers
+            tr
+              td #{index + 1}
+              td #{reg.service ? reg.service.title : "Không có"}
+              td #{reg.date ? reg.date.toLocaleDateString() : ""}
+              td #{reg.hour || reg.hours || ''}
+              td 
+                if reg.status === 'pending'
+                  span.badge.bg-warning.text-dark Đang xác nhận
+                else if reg.status === 'cancelled'
+                  span.badge.bg-danger Đã hủy  
+                else if reg.status === 'completed'
+                  span.badge.bg-success Đã xác nhận 
+                else
+                  span.badge.bg-secondary #{reg.status}
+              td
+                if reg.status === 'pending'
+                  form(action=`/register/cancel/${reg._id}?_method=PATCH` method="POST" onsubmit="return confirm('Bạn có chắc muốn hủy đăng ký này?');")
+                    button.btn.btn-sm.btn-danger(type="submit") Hủy
+                else if reg.status === 'cancelled'
+                  button.btn.btn-sm.btn-secondary(type="button" disabled) Hủy
+                else
+                  span.text-muted Không thể hủy
+
+    else
+      .alert.alert-info.text-center Chưa có đăng ký nào.

@@ -1,0 +1,80 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/search.pug
+include ../../mixins/actions.pug
+include ../../mixins/alert.pug
+
+block main 
+  if(role.permissions.includes("role_view"))
+  
+    .container.mt-5
+      +alert-success(5000)
+      +alert-error(5000)
+
+      h1.text-center.mb-4.text-primary Quản lý nhóm quyền 
+
+      .d-flex.justify-content-between.flex-wrap.align-items-center.mb-4.gap-3
+        .d-flex.gap-2.flex-wrap
+          a.btn.btn-outline-primary(href=`${prefixAdmin}/roles/create`) 
+            i.bi.bi-plus-square-fill.me-1
+            | Thêm nhóm quyền
+
+        .d-flex.col-8.justify-content-between.align-items-center
+          .d-flex.gap-3.justify-content-center
+            +search(prefixAdmin, 'roles')
+            +actions(prefixAdmin, 'roles')
+
+      table.table.table-striped.table-bordered.text-center.align-middle(checkbox-multi)
+        thead.table-dark
+          tr
+            th
+              input#checkAll(type="checkbox", name="checkAll", checkAll)
+            th STT
+            th Tên quyền
+            th Mô tả
+            th Trạng thái 
+            th Hành động
+
+        tbody
+          if roles.length === 0
+            tr
+              td(colspan="5").text-center.text-muted Không có dữ liệu
+          else
+            each item, index in roles
+              tr
+                td
+                  input.checkItem(type="checkbox", name="checkItem", data-id=item._id)
+                td #{index + 1}
+                td #{item.title}
+                td #{item.description || 'Không có mô tả'}
+                td
+                  if item.status == 'active'
+                      a.badge.bg-success( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id) Đang hoạt động  
+                  else
+                      a.badge.bg-secondary( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id ) Ngừng hoạt động  
+                td
+                  a.btn.btn-sm.btn-outline-warning.text-black(href=`${prefixAdmin}/roles/edit/${item._id}`)
+                    i.bi.bi-pencil.me-1
+                    | Sửa
+
+                  button.btn.btn-sm.btn-outline-danger.ms-2(type="button", data-id=item._id, btn-delete) 
+                    i.bi.bi-trash
+                    | Xóa
+
+      form#formDelete(action="", data-path=`${prefixAdmin}/roles/delete`, method="post")
+      form(action="" method="POST" form-change-status data-path=`${prefixAdmin}/roles/change-status`)
+      if pagination.totalPage > 1
+        nav(aria-label="Pagination")
+          ul.pagination.justify-content-center
+            if pagination.currentPage > 1
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage - 1) <i class="bi bi-chevron-double-left"></i>
+
+            - for (let i = 1; i <= pagination.totalPage; i++)
+              li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+                button.page-link(type="button", button-pagination=i) #{i}
+
+            if pagination.currentPage < pagination.totalPage
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage + 1) <i class="bi bi-chevron-double-right"></i>
+  else 
+    p Bạn không có quyền 

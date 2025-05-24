@@ -1,0 +1,48 @@
+//- views/pages/services/detail.pug
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  .container.py-5
+    .row.g-4
+      //- Cột thông tin dịch vụ
+      .col-lg-7
+        h1.text-primary.mb-3 #{service.title}
+        img.img-fluid.mb-3(src=service.thumbnail, alt=service.title)
+        if service.price
+          h4.text-danger.mb-3 Giá: #{service.price.toLocaleString()} đ
+        p.mb-4 !{service.description}
+
+      //- Cột form đăng ký
+      .col-lg-5
+        .card.shadow-lg.p-4
+          +alert-success(5000)
+          h3.mb-4 Đăng ký ngay
+          form(action=`/register/service/${service.slug}` method="POST")
+            .mb-3
+              label.form-label(for="name") Tên thú cưng 
+              input.form-control(type="text" name="name" id="name" placeholder="Nhập họ và tên" required)
+            .mb-3
+                label.form-label(for="serviceName") Tên dịch vụ
+                input.form-control(type="text" name="serviceName" id="serviceName" value=service.title readonly)
+            
+            .mb-3
+              label.form-label(for="date") Ngày đăng ký
+              input.form-control(type="date" name="date" id="date" required)
+            .mb-3
+                label.form-label(for="hours") Giờ đăng ký
+                select.form-select.form-select-lg(name="hours" id="hours" required)
+                  option(value="" disabled selected) Chọn giờ
+                  option(value="08:00") 08:00
+                  option(value="09:00") 09:00
+                  option(value="10:00") 10:00
+                  option(value="11:00") 11:00
+                  option(value="13:00") 13:00
+                  option(value="14:00") 14:00
+                  option(value="15:00") 15:00
+
+            .mb-3
+              label.form-label(for="note") Ghi chú
+              textarea.form-control(name="note" id="note" rows="3" placeholder="Ghi chú thêm nếu có")
+            button.btn.btn-primary.w-100(type="submit") GỬI ĐĂNG KÝ
+

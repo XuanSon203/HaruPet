@@ -1,0 +1,55 @@
+extends ../../layout/layoutdefault
+include ../../mixins/search.pug
+
+block main
+  .container.mt-4
+    h2 Danh sách người dùng
+    +search(prefixAdmin,'users')
+    table.table.table-bordered.mt-3
+      thead
+        tr
+          th Họ tên
+          th Email
+          th SĐT
+          th Trạng thái
+          th Người cật nhập 
+          th Số lần nhập sai mật khẩu 
+          th Thao tác
+      tbody
+        each user in users
+          tr
+            td= user.fullName
+            td= user.email
+            td= user.phone
+            td
+                  if user.status == 'active'
+                      a.badge.bg-success( href=`javascript:` btn-change-status  data-status=user.status data-id=user.id) Đang hoat động 
+                  else
+                      a.badge.bg-secondary( href=`javascript:` btn-change-status  data-status=user.status data-id=user.id ) Ngừng hoạt động 
+            td
+                - var updatedBy = user.updatedBy[user.updatedBy.length - 1]
+                if updatedBy
+                    p #{updatedBy.accountFullName}
+                    if updatedBy.updatedAt
+                    - var updatedDate = new Date(updatedBy.updatedAt)
+                    p #{updatedDate.toLocaleString('vi-VN')}
+            td #{user.loginAttempts} /5 
+            td
+                button.btn.btn-danger.btn-sm(type="submit",data-id=user._id, btn-delete ) Xóa
+    form#formDelete(action="", data-path=`${prefixAdmin}/users/delete`, method="post")
+    form(action="" method="POST" form-change-status data-path=`${prefixAdmin}/users/change-status`)
+      // Pagination
+      if pagination.totalPage > 1
+        nav(aria-label="Pagination")
+          ul.pagination.justify-content-center
+            if pagination.currentPage > 1
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage - 1) <i class="bi bi-chevron-double-left"></i>
+
+            - for (let i = 1; i <= pagination.totalPage; i++)
+              li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+                button.page-link(type="button", button-pagination=i) #{i}
+
+            if pagination.currentPage < pagination.totalPage
+              li.page-item
+                button.page-link(type="button", button-pagination=pagination.currentPage + 1) <i class="bi bi-chevron-double-right"></i>

@@ -1,0 +1,38 @@
+extends ../../layout/layoutdefault.pug
+
+block main
+  if user
+    .container.mt-5
+      .row
+        .col-md-6.d-flex.flex-column.align-items-start
+          button.btn.btn-outline-dark.mb-3(onclick="window.history.back()") Quay lại
+          img.img-fluid.rounded(src=pet.thumbnail, alt=pet.name)
+
+        .col-md-6
+          h2.mb-3 #{pet.name}
+          ul.list-group.mb-4
+            li.list-group-item Tuổi: #{pet.age} tuổi
+            li.list-group-item Màu sắc: #{pet.color}
+            li.list-group-item Giới tính: #{pet.gender == 'male' ? 'Đực' : 'Cái'}
+            li.list-group-item Ngày sinh: #{pet.birthDate.toLocaleDateString('vi-VN')}
+            li.list-group-item Mô tả: #{pet.description}
+            li.list-group-item Giá: #{pet.price.toLocaleString('vi-VN')} VNĐ
+            li.list-group-item Trạng thái: #{pet.deleted ? 'Đã xóa' : 'Còn bán'}
+            li.list-group-item Ngày tạo: #{pet.createdAt.toLocaleDateString('vi-VN')}
+
+          
+          .d-flex.justify-content-center.align-items-center.gap-3
+            form#addCart(action='' data-path='/cart/add' method="post")
+              input.quantity(type="number", name="quantity" value="1" min="1" )
+              button.btn.btn-outline-primary.mx-4(data-id=pet._id btn-add-cart ) Thêm giỏ hàng
+
+            form#byNow(method="POST" data-path="/checkout")
+                input.quantity(type="number", name="qty" value="1" min="1")
+                button.btn.btn-success(type="submit" data-id=pet._id btn-by-now) Mua ngay
+
+
+
+
+  else 
+    p Vui lòng đăng nhập 
+

@@ -1,0 +1,21 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  .container.mt-5
+    +alert-success(5000)
+    +alert-error(5000)
+
+    h2.text-center.mb-4.text-warning Chỉnh sửa vai trò
+
+    form(method="POST", action=`${prefixAdmin}/roles/edit/${data._id}?_method=PATCH`)
+      .mb-3
+        label.form-label(for="title") Tên vai trò
+        input.form-control(type="text", name="title", id="title", required value=data.title)
+
+      .mb-3
+        label.form-label(for="description") Mô tả
+        textarea.form-control(name="description", id="description", rows="3")= data.description    
+
+      button.btn.btn-primary(type="submit") Cập nhật
+      a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/roles`) Quay lại

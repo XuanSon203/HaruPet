@@ -1,0 +1,32 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-error(5000)
+  .container.mt-4
+    h1.text-center.mb-4 Danh sách thú cưng
+
+    .row
+      .col-md-3.mb-4
+          .card
+            .card-body
+              h5.card-title Danh mục
+              .d-grid.gap-2
+                each item in breedPet
+                  a.btn.btn-outline-secondary.w-100.m-2(href=`/pets/category/${item.slug}`) #{item.title}
+
+
+   
+      .col-md-9
+        .row
+          each pet in pets
+            .col-md-6.col-lg-4.mb-4
+              .card.shadow-sm
+                img.card-img-top(src=pet.thumbnail, alt=pet.name)
+                .card-body
+                  h5.card-title #{pet.name}
+                  p.card-text Giá: #{pet.price} VNĐ
+                  p.card-text Màu sắc: #{pet.color}
+                  p.card-text Tuổi: #{pet.age} tuổi
+                  p.card-text Giới tính: #{pet.gender == 'male' ? 'Đực' : 'Cái'}
+                  a.btn.btn-primary.mt-2(href=`/pets/${pet.slug}`) Xem chi tiết

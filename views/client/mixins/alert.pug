@@ -1,0 +1,12 @@
+mixin alert-success(time)
+  if (messages.success)
+    .message.info
+      div.alert.alert-primary.w-50(id="show-alert", data-time=time) 
+        | #{messages.success}
+        span#close-alert X
+mixin alert-error(time)
+  if (messages.error)
+    .message.info
+      div.alert.alert-danger.w-50(id="show-alert", data-time=time) 
+        | #{messages.error}
+        span#close-alert X

@@ -1,0 +1,77 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/search.pug
+include ../../mixins/actions.pug
+
+block main 
+  .container.mt-5
+    h1.text-center.mb-4.text-primary Quản lý thú cưng
+    a.btn.btn-outline-primary(href="/admin/pets") Quay lại  
+    .d-flex.justify-content-between.flex-wrap.align-items-center.mb-4.gap-3
+        .d-flex.gap-2.flex-wrap
+
+        .d-flex.col-8.justify-content-between.align-items-center
+            .d-flex.gap-3.justify-content-center
+                +search(prefixAdmin, 'pets')
+    table.table.table-striped.table-bordered.text-center.align-middle(checkbox-multi)
+      thead.table-dark
+        tr
+            th
+                input#checkAll(type="checkbox", name="checkAll" checkAll)
+            th STT
+            th Tên thú cưng 
+            th Hình ảnh 
+            th Màu 
+            th Giá
+            th Vị trí 
+            th Trạng thái 
+            th Hành động
+
+        tbody
+            if data.length > 0
+                each item, index in data
+                    tr
+                        td
+                            input.checkItem(type="checkbox", name="checkItem" data-id = item.id)
+                        th #{index + 1}
+                        td #{item.name}
+                        td 
+                          img(src=item.thumbnail, alt=item.name, style="width: 150px; height: auto;")
+                        td #{item.color}
+                        td #{Number(item.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                        td
+                            input.form-control(type="number", name="position", value=item.position, min="1", style="width: 80px; margin: auto;")
+                        td
+                            if item.status == 'active'
+                                a.badge.bg-success( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id) Đang bán 
+                            else
+                                a.badge.bg-secondary( href=`javascript:` btn-change-status  data-status=item.status data-id=item.id ) Ngừng bán 
+
+                        td
+                            button.btn.btn-sm.btn-outline-info.text-dark(data-id=item._id btn-reset)
+                                i.bi.bi-eye-fill.me-1
+                                | Reset
+
+                            button.btn.btn-sm.btn-outline-danger.ms-2(type="button", data-id=item._id, btn-delete) 
+                                i.bi.bi-trash
+                                | Xóa
+            else
+                    tr
+                    td(colspan="9").text-center.text-muted Không có thú cưng nào trong thùng rác 
+
+    form#formDelete(action="", data-path=`${prefixAdmin}/pets/bin/delete`, method="post")
+    form(action="" method="POST" form-reset data-path=`${prefixAdmin}/pets/bin/reset`)
+    // Pagination
+    if pagination.totalPage > 1
+      nav(aria-label="Pagination")
+        ul.pagination.justify-content-center
+          if pagination.currentPage > 1
+            li.page-item
+              button.page-link(type="button", button-pagination=pagination.currentPage - 1) <i class="bi bi-chevron-double-left"></i>
+
+          - for (let i = 1; i <= pagination.totalPage; i++)
+            li(class=`page-item ${pagination.currentPage === i ? "active" : ""}`)
+              button.page-link(type="button", button-pagination=i) #{i}
+
+          if pagination.currentPage < pagination.totalPage
+            li.page-item
+              button.page-link(type="button", button-pagination=pagination.currentPage + 1) <i class="bi bi-chevron-double-right"></i>

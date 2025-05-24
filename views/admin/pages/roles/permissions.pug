@@ -1,0 +1,214 @@
+extends ../../layout/layoutdefault.pug
+include ../../mixins/alert.pug
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+  
+  h1 Phân Quyền
+  if(records)
+    div(data-records=records)
+    table.table.table-bordered(table-permissions)
+      button.btn.btn-primary.m-3(type="submit" btn-submit)  Cập nhật
+      thead
+        tr
+          th Tính năng
+          each item in records
+            th #{item.title}
+
+      tbody
+        tr.d-none(data-name="id" )
+          td
+            each item in records
+              td
+                input(type="text" value=item.id )
+        //- Quản lý nhóm danh mục giống loài 
+        tr
+          td Danh mục sản phẩm
+          td(colspan="4")
+
+        tr(data-name="products-category_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products-category_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products-category_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products-category_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý sản phẩm
+          td(colspan="4")
+
+        tr(data-name="products_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="products_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý tài khoản 
+          td(colspan="4")
+
+        tr(data-name="account_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="account_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="account_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="account_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý nhóm quyền 
+          td(colspan="4")
+
+        tr(data-name="role_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="role_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="role_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="role_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý phân quyền quyền 
+          td(colspan="4")
+
+        tr(data-name="permission_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý người dùng 
+          td(colspan="4")
+
+        tr(data-name="user_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="user_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="user_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="user_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr
+          td Quản lý dịch vụ 
+          td(colspan="4")
+
+        tr(data-name="services_view")
+          td Xem
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="services_add")
+          td Thêm mới
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="services_edit")
+          td Chỉnh sửa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        tr(data-name="services_delete")
+          td Xóa
+          each item in records
+            td
+              input(type="checkbox",)
+
+        
+
+
+
+  else
+    a(href="/admin/roles/create") Tạo mới
+  form(method="POST",
+    id='form-change-permissions'
+   action=`${prefixAdmin}/roles/permissions?_method=PATCH`)
+   div()
+    input(type="text" name="permissions" hidden)
+  script(src="/admin/js/roles.js") 

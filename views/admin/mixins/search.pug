@@ -1,0 +1,14 @@
+mixin search(admin, link)
+    form.d-flex.flex-wrap.align-items-center.gap-2.mx-2(
+        method="GET",
+        action=`${admin}/${link}`,
+        form-search
+    )
+        input.form-control.w-auto(
+        type="text",
+        name="search",
+        value=search || '',
+        placeholder="Nhập để tìm kiếm ..."
+        )
+        button.btn.btn-outline-primary(type="submit")
+            i.bi.bi-search

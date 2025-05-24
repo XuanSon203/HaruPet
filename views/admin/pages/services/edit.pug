@@ -1,0 +1,38 @@
+extends ../../layout/layoutdefault.pug 
+include ../../mixins/alert.pug
+
+block main
+    .container.mt-5
+        +alert-error("5000")
+        h1.text-2xl.text-center.text-primary.fw-bold.mb-4 Chỉnh sửa dịch vụ  
+
+        form(action=`${prefixAdmin}/services/edit/${service._id}?_method=PATCH` method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light")
+            // nếu bạn dùng method-override, _method=PUT sẽ chuyển POST thành PUT
+            //input(type="hidden" name="_method" value="PUT")
+
+            .mb-3
+                label.form-label(for="title") Tên dịch vụ
+                input.form-control(
+                  type="text" 
+                  name="title"  
+                  id="title"
+                  required 
+                  value=service.title
+                )
+            .mb-3
+                div( class="form-group" upload-image)
+                    label.form-label(for="thumbnail") Ảnh sản phẩm (URL):
+                    input.form-control(type="file" name="thumbnail" accept="image/*" upload-image-input)
+                    img(src=service.thumbnail, alt="" upload-image-preview style=" width: 150px; margin-top: 10px;")
+                    button.btn.btn-danger.mt-2(type="button" upload-image-remove) Xóa ảnh
+            .mb-3
+                label.form-label(for="description") Mô tả :
+                textarea.form-control.textarea-mce(
+                  name="description" 
+                  id="description" 
+                  rows="5" 
+                )= service.description
+
+            .d-flex.justify-content-end
+                button.btn.btn-success(type="submit") Cập nhật
+                a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/services`) Hủy

@@ -1,0 +1,19 @@
+//- Services Start
+extends ../../layout/layoutdefault.pug
+block main
+  .container-fluid.bg-light.pt-5
+    .container.py-5
+      .d-flex.flex-column.text-center.mb-5
+        h4.text-secondary.mb-3 Our Services
+        h1.display-4.m-0 
+          span.text-primary Premium
+          |  Pet Services
+
+      .row.pb-3
+        each service in services        
+          .col-md-6.col-lg-4.mb-4
+            .d-flex.flex-column.text-center.bg-white.mb-2.p-3.p-sm-5
+              h3.flaticon-house.display-3.font-weight-normal.text-secondary.mb-3
+              img(src=service.thumbnail)
+              h3.mb-3 #{service.title}
+              a.text-uppercase.font-weight-bold(href=`/services/${service.slug}`) Read More
