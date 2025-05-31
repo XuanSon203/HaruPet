@@ -1,7 +1,7 @@
 Khi các bạn clone dự ấn này về thì hay bổ sung thêm các file sau 
 node_module 
-.env 
-Cậu lênh cài đặt 
+.env.
+  Cậu lênh cài đặt 
 npm init 
 npm i dotenv
 Còn database mk mình sẽ cung cấp cho các bạn khi các bạn ib qua gmail pxuanson203@gmai.com mình sẽ phản hổi lại cho các bạn sau 24h  
