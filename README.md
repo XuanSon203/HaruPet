@@ -11,6 +11,7 @@ mk 123456
 Mổ tả về các chức năng có trên trang web 
 Admin:
   Quản lý đơn hàng, tài khoản , user, dịch vụ , phân quyền ...
+  
 CLient:
   Sản phẩm 
   Đặt hàng, thêm sản phẩm vào giỏ hàng , xem được đơn hàng ..
