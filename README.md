@@ -6,7 +6,7 @@ npm init
 npm i dotenv
 Còn database mk mình sẽ cung cấp cho các bạn khi các bạn ib qua gmail pxuanson203@gmai.com mình sẽ phản hổi lại cho các bạn sau 24h  
 tài khoản admin 
-email:manebis#o5@gmaiil.com
+email:manebis3o5@gmaiil.com
 mk 123456
 Mổ tả về các chức năng có trên trang web 
 Admin:
